@@ -1,1 +1,3 @@
-# Argentix-Public-Version-
+# ARGENTIX
+![image alt](https://github.com/SirSalch/Argentix-Public-Version/blob/main/Repository%20content/Logo.png?raw=true) <br> <br>
+**( 🛠 In development ) Argentix** is an open source hardware and software ecosystem for the development of electronic devices based on domestic MIK32 microcontrollers, providing a range of proprietary boards and software that combines ease of programming with high performance.
