@@ -1,6 +1,116 @@
-# АРГЕНТИКС *(Argentix)*
-<img src="https://github.com/SirSalch/Argentix-Public-Version/blob/main/Repository%20content/Logo.png?raw=true" width="800"> <br> <br>
+<img src="https://github.com/SirSalch/Argentix-Public-Version/blob/main/Repository%20content/Logo.png?raw=true&quot; width="800"> 
+ 
+
+# АРГЕНТИКС
 **( 🛠 В разработке ) Аргентикс** - это программно-аппаратная экосистема с открытым исходным кодом для разработки электронных устройств
-на базе отечественных микроконтроллеров MIK32, предоставляющая ряд фирменных плат и программного обеспечения, сочетающих простоту
-программирования с высокой производительностью. <br> <br>
-*( 🛠 In development ) Argentix is an open source hardware and software ecosystem for the development of electronic devices based on domestic MIK32 microcontrollers, providing a range of proprietary boards and software that combines ease of programming with high performance.*
+на базе отечественных микроконтроллеров MIK32 Амур и Миландр НИЭЭТ(В будущем) предоставляющая ряд фирменных плат. 
+
+Экосистема обеспечивает предельно простой и интуитивно понятный синтаксис. Процесс работы становится лаконичным и быстрым — вся сложная рутина скрыта «под капотом», позволяя полностью сосредоточиться на логике вашего проекта. 
+
+Проект строится на принципах Метапрограммирования и Zero-Cost Abstractions (абстракции с нулевой стоимостью) используя современный инструментарий C++, что позволяет перенести 80% вычислений такие как маски, битовые сдвиги, рассчет частоты и т.п. Из вычеслительных мощностей микроконтроллера на компилятор (ПК разработчика). 
+
+Все данные рассчитываются и обрабатываются еще до загрузки прошивки, поэтому микроконтроллеру остается лишь применить готовые значения к своим регистрам. Такой подход позволяет существенно экономить ресурсы (Flash-память и RAM) по сравнению с традиционными тяжеловесными SDK, написанными на чистом C. 
+
+ 
+
+ 
+## Бенчмарк
+| Платформа  | Чип                       | Прошивка          | Занимаемая ПЗУ | Занимаемая ОЗУ |
+| :---:      | :---:                     | :---:             | :---:          | :---:          |
+| ARGENTIX   | МИК32 (К1948ВК015)        | Led Blink         | 120 Байт       | 0 Байт         |
+| Arduino    | ATmega328P                | Led Blink         | 924 Байт       | 9 Байт         |
+| STM32 Cube | STM32F103C8T6 (Blue Pill) | Led Blink         | 1240 Байт      | 34 Байт        |
+
+## Пример Blink
+```c++
+#include <ARGENTIX.hpp>
+
+int main(void) {
+  Pin led(PIN_1_5, OUTPUT);
+
+  while (1) {
+    led.set(HIGH);
+    delay(300);
+    led.set(LOW);
+    delay(300);
+  }
+}
+```
+```
+Вес прошивки ЕЕПРОМ:120 байт,  ОЗУ:0 байт
+```
+
+## Начало работы (Ubuntu)
+> [!NOTE]
+> На текущий момент разработки установка тулчейнов, сборка проекта и прошивка выполняются в ручную под ubuntu.
+> В будущем будет реализовано удобное графическое окружение для vsCode, с автоматической установкой и настройками под различные ОС
+
+ 
+
+### Установка тулчейна 
+Скачайте openOCD для связи с JTAG отладчиком
+``` bash
+sudo apt install openocd
+```
+Установите gcc компилятор под микроконтроллеры на RISC-V архитектуре
+``` bash
+sudo apt install gcc-riscv64-unknown-elf
+```
+Скачайте python3 и библиотеки для него
+``` bash
+sudo apt install python3
+sudo apt install python3-usb
+sudo apt install libusb-1.0-0
+```
+Устновите cMake
+``` bash
+sudo apt install cmake build-essential
+```
+ 
+
+### Установка ARGENTIX
+Перейдите в директорию куда хотите клонировать реаозиторий
+``` bash
+cd <Ваш путь к желаемой директории>
+```
+Клонируйте репозиторий ARGENTIX
+``` bash
+git clone https://github.com/SirSalch/Argentix-Public-Version.git
+```
+ 
+
+### Сборка проекта
+Перейдите в директорию build
+``` bash
+cd Project/build
+```
+Запустите сборку проекта выполнив
+``` bash
+cmake ..
+```
+ 
+
+### Компиляция 
+Перейдите в директорию build
+``` bash
+cd Project/build
+```
+Выполните компиляцию
+``` bash
+make
+```
+ 
+
+### Загрузка прошивки
+Подключите плату к компьютеру  
+
+Нажмите кнопку "MODE" на плате для перехода в JTAG режим (Для отладочной платы "Микрон Старт") 
+
+Перейдите в директорию eeprom загрузчика
+``` bash
+cd Project/argentix/loaders/eeprom_loader
+```
+Запустите скрипт загрузчика
+``` bash
+python3 eeprom-loader.py
+```
