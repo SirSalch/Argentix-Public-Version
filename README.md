@@ -1,4 +1,4 @@
-<img src="https://github.com/SirSalch/Argentix-Public-Version/blob/main/Repository%20content/Logo.png?raw=true&quot; width="800"> 
+![image alt](https://github.com/SirSalch/Argentix-Public-Version/blob/main/Repository%20content/Logo.png?raw=true) <br> <br>
  
 
 # АРГЕНТИКС
